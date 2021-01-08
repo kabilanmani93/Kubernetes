@@ -1,0 +1,4 @@
+passwd kabilanmani93
+vim /etc/ssh/ssh-config --> allowpassword : yes
+service sshd restart
+usermod -aG sudo kabilanmani93

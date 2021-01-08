@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myapp-replicaset
+  labels:
+    app: myapp
+    tier: frontend
+spec:
+  template:
+    metadata:
+      name: myapp-pod-nginx
+      labels:
+        app: myapp-nginx
+        type: frontend
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx
+  replicas: 3
+  selector:
+    matchLabels:
+      type: frontend
+
+
+
+#Kubectl create -f ReplicaSet.yml
+#kubectl get replicaset
+
+#scale
+#kubectl edit replicaset myapp-replicaset ( a file shall open ,
+#that a temporary file created by kubernetes tp modify any in the current running config)
+#kubectl replace -f ReplicaSet.yml ( after replcaing)
+#kubectl scale --replicas=6 -f ReplicaSet.yml
+#kubectl scale --replicas=6  ReplicaSet myapp-replicaset
+
+#Role is to monitor the pods , in case if there is a failure redeploy the new POD
+#To have defined number of pods running at a given point of time
+
+#Labels Selectors
+#Whats PODS to monitor? there will 100's of POD running
+# hence label is used to defined the replicaset to monitor which POD's
+
+#kubectl explain replicaset|grep VERSION
+
+
+
+
+
+
