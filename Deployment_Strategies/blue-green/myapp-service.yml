@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+  labels:
+    name: myapp-service
+    app: myapp
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      nodePort: 30009
+  selector:
+    name: myapp-pod
+    app: myapp
+
+#container port specified in myapp should be added here in port as well
+
+
+

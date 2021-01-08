@@ -1,0 +1,10 @@
+https://medium.com/containers-101/fully-automated-canary-deployments-in-kubernetes-70a671105273
+
+Unlike Blue/green deployments, Canary releases are based on the following assumptions:
+   -Multiple versions of your application can exist together at the same time, getting live traffic.
+   -If you don’t use some kind of sticky session mechanism, some customers might hit a production server in one request and a canary server in another.
+If you cannot guarantee these two points, then blue/green deployments are a much better approach for safe deployments.
+
+https://www.digitalocean.com/community/tutorials/how-to-do-canary-deployments-with-istio-and-kubernetes --istio
+
+https://kubernetes.io/blog/2020/04/two-phased-canary-rollout-with-gloo/ --gloo

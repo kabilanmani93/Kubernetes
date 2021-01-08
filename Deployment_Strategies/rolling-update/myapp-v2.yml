@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deploy
+  labels:
+    name: myapp-deploy
+    app: myapp
+    version: v2.0.0
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: myapp-pod
+      app: myapp
+  template:
+    metadata:
+      name: myapp-pod
+      labels:
+        name: myapp-pod
+        app: myapp
+        version: v2.0.0
+    spec:
+      containers:
+        - name: myapp
+          image: deekshithsn/k8s-deployment-strategies
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: probe
+              containerPort: 8086
+          env:
+            - name: VERSION
+              value: v2.0.0
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
