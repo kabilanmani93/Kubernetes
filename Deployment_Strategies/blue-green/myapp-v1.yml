@@ -12,6 +12,7 @@ spec:
     matchLabels:
       name: myapp-pod
       app: myapp
+      version: v1.0.0
   template:
     metadata:
       name: myapp-pod

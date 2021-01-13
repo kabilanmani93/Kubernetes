@@ -1,0 +1,31 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: standard
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-standard
+  fstype: ext4
+  replication-type: none
+reclaimPolicy: Retain
+allowVolumeExpansion: true
+mountOptions:
+  - debug
+volumeBindingMode: WaitForFirstConsumer
+
+
+#If replication-type is set to none, a regular (zonal) PD will be provisioned.
+#If replication-type is set to regional-pd, a Regional Persistent Disk will be provisioned.
+  #It's highly recommended to have volumeBindingMode: WaitForFirstConsumer set,
+  #in which case when you create a Pod that consumes a PersistentVolumeClaim which uses this StorageClass,
+  #a Regional Persistent Disk is provisioned with two zones.
+  #One zone is the same as the zone that the Pod is scheduled in.
+  #The other zone is randomly picked from the zones available to the cluster.
+  #Disk zones can be further constrained using allowedTopologies.
+
+  #https://kubernetes.io/docs/concepts/storage/storage-classes/#gce-pd
+  #Each StorageClass contains the fields provisioner, parameters, and reclaimPolicy,
+  #which are used when a PersistentVolume belonging to the class needs to be dynamically provisioned.
+# Retain/Delete Default is delete
+# This feature when set to true, allows the users to resize the volume by editing the corresponding PVC object
+#WaitForFirstConsumer/immediate

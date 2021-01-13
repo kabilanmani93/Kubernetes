@@ -1,0 +1,23 @@
+#administrator create PV and user created pvc to use the PV
+# bassed on Sufficient capacity, Access Modes,  Volume Modes, Storage Class, Kubernetes shall bind the PV
+# if there are multiple matches then selector can be used
+# Example a smaller claim gets bounded to a bigger PV if tehre is no match. since PV an PVC are 1 to 1 relation
+  #other claim cannot occupy the same PV
+# pvc will remain in pending state, if there is no PV, untll pv is available
+
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mypvc
+  labels:
+    app: mysql
+    tier: database
+spec:
+  storageClassName: "standard"
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  #volumeName: pv-vol1

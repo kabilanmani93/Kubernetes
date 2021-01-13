@@ -1,0 +1,79 @@
+ip link
+ip addr
+route
+
+ip route add destinationip via gateway-ip
+ip route add 192.168.2.0/24 via 192.168.1.1
+ip route add default via 192.168.1.1
+
+Create Namespace
+ip netns add red
+ip netns add blue
+
+Create a Viruallink /pipe
+ip link add veth-red type veth peer name veth-blue
+
+Set this link to ns
+ip link set veth-red netns red
+ip link set veth-blue netns blue
+
+add an address to namspace
+ip netns exec red addr add 192.168.15.1 dev veth-red
+ip -n blue addr add 192.168.15.2 dev veth-blue
+
+Namespaces are stored in ---------------> cat /etc/hosts
+example 192.168.15.1 db
+ping db
+
+if a host as two ethernet ports , then to transfer info IP forwarding should be done
+cat /proc/syc/net/ipv4/ip-forward  and set it to 1
+cat /etc/sysctl.conf and set it to 1
+
+
+Instead of creating the hostname in /etc/hosts in all machine. a DNS hosts is added which maintains the names in /cat/resolv.conf
+namserver 192.168.1.100
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+if there are multiple namespaces getting created in a host. ?
+
+then create a virtual switch/bridge
+ip link add v-net-0 type bridge
+ip link set v-net-0 up
+ip addr add 192.168.15.10/24 dev v-net-0
+
+Create namspaces
+ip netns add red
+ip netns add blue
+ip netns add green
+ip netns add yellow
+
+create a virtual link/pipe
+ip link add veth-red type veth peer name veth-red-bridge
+
+Set the link to namspace and bridge
+ip link set veth-red netns red
+ip link set veth-red-br master v-net-0
+
+Assign an address to namespaces
+ip -n red addr add 192.168.15.1 dev veth-red
+
+bring the link up
+ip -n red link set veth-red up
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+

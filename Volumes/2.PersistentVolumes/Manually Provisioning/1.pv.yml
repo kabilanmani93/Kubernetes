@@ -1,0 +1,28 @@
+#https://cloud.google.com/sdk/docs/quickstart
+#https://dev.to/azure/how-to-use-custom-storage-classes-in-kubernetes-3jo4
+#Create a gcp volume first
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: manually-created-pv
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 10Gi
+  persistentVolumeReclaimPolicy: Retain
+  gcePersistentDisk:
+    pdName: manual-disk-1
+  #hostPath:
+  #  path: /tmp/data
+
+# hostpath can be replaced by cloud services for example aws EBS
+  #awsElasticBlockStore:
+  #  volumeID:
+  #  fsType:
+
+  # if there is a single pod, we would create a volume and mount it
+  #in case there are multiple pods, doing the change in all the pod is a tedious job
+  # this can be overcomed by pvc
+
+

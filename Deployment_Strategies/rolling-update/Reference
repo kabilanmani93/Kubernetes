@@ -1,0 +1,5 @@
+https://learnk8s.io/kubernetes-rollbacks
+
+https://medium.com/stakater/k8s-deployments-vs-statefulsets-vs-daemonsets-60582f0c62d4#:~:text=You%20will%20have%20to%20specify%20the%20tolerations%20for%20it%20on%20the%20pod.&text=which%20means%20that%20it%20should%20tolerate%20all%20nodes.&text=When%20you%20deploy%20the%20daemonset,share%20the%20same%20Persistent%20Volume.
+
+https://github.com/kahootali/counter-app/tree/master/kubernetes

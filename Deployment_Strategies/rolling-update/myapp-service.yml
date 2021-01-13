@@ -15,7 +15,6 @@ spec:
   selector:  # Note here that we match both the app and the version
     name: myapp-pod
     app: myapp
-    version: v1.0.0
 
 #container port specified in myapp should be added here in port as well
 

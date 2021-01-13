@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deploy-2
+  labels:
+    name: myapp-deploy
+    app: myapp
+    version: v2.0.0
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: myapp-pod
+      app: myapp
+      version: v2.0.0
+  template:
+    metadata:
+      name: myapp-pod
+      labels:
+        name: myapp-pod
+        app: myapp
+        version: v2.0.0
+    spec:
+      containers:
+        - name: myapp
+          image: deekshithsn/k8s-deployment-strategies
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: probe
+              containerPort: 8086
+          env:
+            - name: VERSION
+              value: v2.0.0
+
+# blue green
+#Deployment names are different and
+  #the service should have the version defined
+  # after the second deployment is done, route it to v2 by changing the version in service
+  # delete the previous v1 pods
+  # match labels in v1 and v2 should be different having version name defined as the deployment gets configured
+#if the names are not different , the deployment shall be configured instead of getting created.
+
+#in recreate and rolling update
+  # deployment name shall be same , as we are configuring it
+  # strategy needs to be mentioned in v2
+  # the service created does not require a version selector
+  # match labels in v1 and v2 should be same as the deployment gets configured
