@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: Daemon-app
+  name: daemon-app
 spec:
   selector:
     matchLabels:
-      app: Daemon
+      app: daemon
   template:
     metadata:
-      name: Daemon-app
+      name: daemon-app
       labels:
-        app: Daemon
+        app: daemon
     spec:
       tolerations:
         - key: "dedicated"
