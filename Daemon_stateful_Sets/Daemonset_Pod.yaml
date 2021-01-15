@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: Daemon-app
+spec:
+  selector:
+    matchLabels:
+      app: Daemon
+  template:
+    metadata:
+      name: Daemon-app
+      labels:
+        app: Daemon
+    spec:
+      tolerations:
+        - key: "dedicated"
+          operator: "Equal"
+          value: "devs"
+          effect: "NoSchedule"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: dedicated
+                    operator: In
+                    values:
+                      - devs
+      containers:
+        - name: just-container
+          image: supergiantkir/animals:bear
