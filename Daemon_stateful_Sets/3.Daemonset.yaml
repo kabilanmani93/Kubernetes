@@ -1,3 +1,5 @@
+#kubectl get nodes -o custom-columns=NAME:.metadata.name,ARCH:.status.nodeInfo.architecture,KERNEL:.status.nodeInfo.kernelVersion,KUBLET:.status.nodeInfo.kubeletVersion,CPU:.status.capacity.cpu,RAM:.status.capacity.memory
+#kubectl get nodes -o json | jq '.items[].spec.taints'
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
