@@ -1,5 +1,35 @@
 #kubectl get nodes -o custom-columns=NAME:.metadata.name,ARCH:.status.nodeInfo.architecture,KERNEL:.status.nodeInfo.kernelVersion,KUBLET:.status.nodeInfo.kubeletVersion,CPU:.status.capacity.cpu,RAM:.status.capacity.memory
 #kubectl get nodes -o json | jq '.items[].spec.taints'
+
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: standard
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-standard
+  fstype: ext4
+  replication-type: none
+reclaimPolicy: Retain
+allowVolumeExpansion: true
+mountOptions:
+  - debug
+volumeBindingMode: Immediate
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-daemon
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Mi
+  storageClassName: standard
+
+---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -17,6 +47,19 @@ spec:
       tolerations:
         - effect: NoSchedule
           operator: Exists
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: failure-domain.beta.kubernetes.io/zone
+                    operator: In
+                    values:
+                      - us-central1-a
+                  - key: failure-domain.beta.kubernetes.io/region
+                    operator: In
+                    values:
+                      - us-central1
       containers:
         - name: counter
           image: "kahootali/counter:1.0"
@@ -26,16 +69,4 @@ spec:
       volumes:
         - name: counter
           persistentVolumeClaim:
-            claimName: counter
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: counter
-spec:
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 50Mi
-  storageClassName: efs
+            claimName: pvc-daemon

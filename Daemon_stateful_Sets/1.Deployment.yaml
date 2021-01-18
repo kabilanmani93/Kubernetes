@@ -17,7 +17,7 @@ volumeBindingMode: Immediate
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: counter-deployment
+  name: pvc-deployment
 spec:
   accessModes:
     - ReadWriteOnce
@@ -63,7 +63,7 @@ spec:
       volumes:
         - name: counter
           persistentVolumeClaim:
-            claimName: counter-deployment
+            claimName: pvc-deployment
 
 #Steps to create Dynamic PV in GCP
 #https://stackoverflow.com/questions/56419707/failed-to-provision-volume-with-storageclass-slow-failed-to-get-gce-gcecloudp
@@ -79,7 +79,7 @@ spec:
   #echo cloud-config >> [Global] project-id = "hazel-design-301109"
   #[Global] project-id =
 
-  kube-apiserver --enable-admission-plugins=,
+  #kube-apiserver --enable-admission-plugins=,
 
 
   #kubectl uncordon NODENAME
