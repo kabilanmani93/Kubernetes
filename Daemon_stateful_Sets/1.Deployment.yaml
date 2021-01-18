@@ -1,3 +1,32 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: standard
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-standard
+  fstype: ext4
+  replication-type: none
+reclaimPolicy: Retain
+allowVolumeExpansion: true
+mountOptions:
+  - debug
+volumeBindingMode: Immediate
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: counter-deployment
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Mi
+  storageClassName: standard
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -12,6 +41,19 @@ spec:
       labels:
         app: counter
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: failure-domain.beta.kubernetes.io/zone
+                    operator: In
+                    values:
+                      - us-central1-a
+                  - key: failure-domain.beta.kubernetes.io/region
+                    operator: In
+                    values:
+                        - us-central1
       containers:
         - name: counter
           image: "kahootali/counter:1.0"
@@ -22,15 +64,46 @@ spec:
         - name: counter
           persistentVolumeClaim:
             claimName: counter-deployment
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: counter-deployment
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 50Mi
-  storageClassName: standard
+
+#Steps to create Dynamic PV in GCP
+#https://stackoverflow.com/questions/56419707/failed-to-provision-volume-with-storageclass-slow-failed-to-get-gce-gcecloudp
+            #/etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+              #vi /etc/kubernetes/cloud-config
+              #cd /etc/kubernetes/manifests
+            #
+            #systemctl restart kubelet
+
+#https://stackoverflow.com/questions/50100219/kubernetes-failed-to-get-gce-gcecloudprovider-with-error-nil
+  #
+  #touch cloud-config
+  #echo cloud-config >> [Global] project-id = "hazel-design-301109"
+  #[Global] project-id =
+
+  kube-apiserver --enable-admission-plugins=,
+
+
+  #kubectl uncordon NODENAME
+  #kubeadm reset
+  #kubeadm reset --force
+
+  #add --cloud-provider=gce
+  #
+  #		chmod -R 777 /etc/kubernetes/
+  #		 kube-apiserver.yaml, kube-controller-manager.yaml
+  #
+  #		chmod -R 777 /etc/systemd/system/
+  #		/etc/systemd/system/kubelet.service.d/
+  #		10-kubeadm.conf
+  #
+  #add the project id in below file
+  #cd /etc/kubernetes/
+  #
+  #touch cloud-config
+  #	[global]
+  #	project-id = "hazel-design-301109"
+  #
+  #Add labels to nodes	as of
+  #Add Mode affiniting in POD definition as in Volume
+  #
+
+
