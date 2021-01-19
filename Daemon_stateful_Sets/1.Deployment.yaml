@@ -65,6 +65,7 @@ spec:
           persistentVolumeClaim:
             claimName: pvc-deployment
 
+#systemctl restart kubelet
 #Steps to create Dynamic PV in GCP
 #https://stackoverflow.com/questions/56419707/failed-to-provision-volume-with-storageclass-slow-failed-to-get-gce-gcecloudp
             #/etc/systemd/system/kubelet.service.d/10-kubeadm.conf

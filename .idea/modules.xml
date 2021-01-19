@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Kuberenetes.iml" filepath="$PROJECT_DIR$/.idea/Kuberenetes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../MavenTestNG/MavenTestNG.iml" filepath="$PROJECT_DIR$/../MavenTestNG/MavenTestNG.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Selenium/Selenium.iml" filepath="$PROJECT_DIR$/../Selenium/Selenium.iml" />
     </modules>
   </component>
 </project>

@@ -4,5 +4,6 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/node_image" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/students-app" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../MavenTestNG" vcs="Git" />
   </component>
 </project>
