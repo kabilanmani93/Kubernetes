@@ -25,3 +25,21 @@ spec:
       args: ["-nginx.scrape-uri","http://localhost/nginx_status"]
       ports:
         - containerPort: 9113
+
+#kubectl exec -it webserver bash
+          # apt update && apt install curl -y
+          # curl localhost/nginx_status
+          # curl localhost:9313/metrics
+          # curl localhost:9113/metrics
+
+         #Sidecar pattern
+            #
+            #An extra container in your pod to enhance or extend the functionality of the main container.
+            #
+            #Ambassador pattern
+            #
+            #A container that proxy the network connection to the main container.
+            #
+            #Adapter pattern
+          #
+          #A container that transform output of the main container.
