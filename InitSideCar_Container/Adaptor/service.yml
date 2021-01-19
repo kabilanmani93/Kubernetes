@@ -11,6 +11,9 @@ spec:
     - targetPort: 80
       port: 80
       nodePort: 30008
+    - targetPort: 9113
+      port: 9113
+      nodePort: 30009
   selector:
     app: webserver
 
