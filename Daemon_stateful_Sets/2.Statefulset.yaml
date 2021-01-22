@@ -14,24 +14,27 @@ mountOptions:
 volumeBindingMode: Immediate
 
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: pvc-stateful
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 50Mi
-  storageClassName: standard
 
+apiVersion: v1
+kind: Service
+metadata:
+  name: counter-service
+  labels:
+    app: counter-service
+spec:
+  ports:
+    - port: 80
+      name: web
+  clusterIP: None
+  selector:
+    app: counter
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: counter
 spec:
+  serviceName: counter-service
   replicas: 1
   selector:
     matchLabels:
@@ -58,9 +61,14 @@ spec:
         - name: counter
           image: "kahootali/counter:1.0"
           volumeMounts:
-            - name: counter
+            - name: pvc-stateful
               mountPath: /app/
-      volumes:
-        - name: counter
-          persistentVolumeClaim:
-            claimName: pvc-stateful
+  volumeClaimTemplates:
+    - metadata:
+        name: pvc-stateful
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: standard
