@@ -1,3 +1,4 @@
+#https://dev.to/kaoskater08/building-a-headless-service-in-kubernetes-3bk8
 apiVersion: apps/v1
 kind: Deployment
 metadata:

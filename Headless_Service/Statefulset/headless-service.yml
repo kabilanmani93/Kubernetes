@@ -3,15 +3,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: headless-service
+  name: mysql-h
 spec:
   clusterIP: None # <-- Don't forget!!
   selector:
-    app: api
+    app: mysql
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 3000
+    - port: 3306
+      targetPort: 3306
 
 
  #Headless service is typically used with StatefulSets where the name of the pods are fixed. This is useful in situations like when you're settling up a MySQL cluster where you need to know the name of the master. StatefulSets appends an ordinal number to the name of the pod and it will always assign the same ordinal number of the pod is restarted or migrated by the scheduler.
