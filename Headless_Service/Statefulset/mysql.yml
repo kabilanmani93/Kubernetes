@@ -13,8 +13,8 @@ spec:
       containers:
         - name: mysql
           image: mysql
-      replicas: 3
-      selector:
-          matchLabels:
-            app: mysql
-      serviceName: mysql-h
+  replicas: 3
+  selector:
+      matchLabels:
+        app: mysql
+  serviceName: mysql-h
