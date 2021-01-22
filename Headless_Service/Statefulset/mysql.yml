@@ -60,9 +60,15 @@ spec:
       containers:
         - name: mysql
           image: mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: admin123
+          ports:
+            - containerPort: 3306
+              name: mysql
           volumeMounts:
             - name: pvc-stateful
-              mountPath: /app/
+              mountPath: /var/lib/mysql
   volumeClaimTemplates:
     - metadata:
         name: pvc-stateful
@@ -72,3 +78,7 @@ spec:
           requests:
             storage: 1Gi
         storageClassName: standard
+
+        #kubectl port-forward mysql-0 3306:3306 --address 0.0.0.0
+        #kubectl port-forward mysql-1.mysql-service.default.svc.cluster.local 3306
+        #kubectl run -it --rm --image=mysql:8.0 --restart=Never mysql-client -- mysql -hmysql-1.mysql-service.default.svc.cluster.local -padmin123
