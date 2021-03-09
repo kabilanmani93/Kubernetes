@@ -17,6 +17,3 @@ spec:
     app: myapp
 
 #container port specified in myapp should be added here in port as well
-
-
-

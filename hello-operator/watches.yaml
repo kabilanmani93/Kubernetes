@@ -1,0 +1,5 @@
+---
+- group: example.com
+  version: v1alpha1
+  kind: Hello
+  chart: helm-charts/hello

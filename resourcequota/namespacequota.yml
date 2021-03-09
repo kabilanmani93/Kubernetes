@@ -1,0 +1,27 @@
+#kubectl create namespace medium
+# kubectl get namespace
+#kubectl create -f namespacequota.yaml -n medium
+#  kubectl get ResourceQuota -n medium
+#kubectl describe resourcequota -n medium
+
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: resqtest
+spec:
+  hard:
+    configmaps: "10"
+    persistentvolumeclaims: "4"
+    pods: "4"
+    replicationcontrollers: "20"
+    secrets: "10"
+    services: "10"
+    services.loadbalancers: "2"
+
+
+    #pods: "5"
+    # cpu: "100"
+    # memory: 20Gi
+    #persistentvolumeclaims: "3"
+    # services.loadbalancers: "4"
+    # services.nodeports: "4"

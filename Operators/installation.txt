@@ -1,0 +1,9 @@
+https://medium.com/better-programming/install-go-1-11-on-ubuntu-18-04-16-04-lts-8c098c503c5f
+https://docs.openshift.com/container-platform/4.1/applications/operator_sdk/osdk-getting-started.html
+https://docs.openshift.com/container-platform/4.5/operators/operator_sdk/osdk-getting-started.html
+
+
+https://developers.redhat.com/blog/2020/08/21/hello-world-tutorial-with-kubernetes-operators/
+
+
+https://codeburst.io/kubernetes-operators-by-example-99a77ea4ac43

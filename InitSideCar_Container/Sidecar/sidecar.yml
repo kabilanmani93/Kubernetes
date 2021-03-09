@@ -1,6 +1,6 @@
 #https://techbeacon.com/enterprise-it/7-container-design-patterns-you-need-know
 #https://wecode.wepay.com/posts/scds-battle-of-containerization
-#k exec -it nginx-webapp-f5cf77c9c-2mh8p -c main-container -- /bin/sh
+#k exec -it nginx-webapp-f5cf77c9c-j59lq -c main-container -- /bin/sh
 ## apt-get update && apt-get install -y curl
 apiVersion: apps/v1
 kind: Deployment
