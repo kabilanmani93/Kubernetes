@@ -13,7 +13,7 @@ spec:
         - containerPort: 80
       readinnessProbe:
         httpGet:
-          path: /
+          path: /health
           port: 80
         initialDelaySeconds: 20
         periodSeconds: 5
