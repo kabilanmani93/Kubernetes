@@ -28,9 +28,17 @@ spec:
                     values:
                       - ssd
                   - key: Memory
-                    operator: gt
+                    operator: Gt
                     values:
                       - 10
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              preference:
+                matchExpressions:
+                  - key: Cpu
+                    operator: In
+                    values:
+                      - High
       containers:
         - name: result-app
           image: kodekloud/examplevotingapp_result:v1
