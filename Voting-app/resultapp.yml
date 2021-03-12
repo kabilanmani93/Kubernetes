@@ -12,22 +12,10 @@ spec:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
         - matchExpressions:
-            - key: Memory
-              operator: gt
-              values:
-              - 10
             - key: Disktype
               operator: In
               values:
               - ssd
-      preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 1
-          preference:
-            matchExpressions:
-            - key: Cpu
-              operator: In
-              values:
-                - High
   containers:
     - name: result-app
       image: kodekloud/examplevotingapp_result:v1
