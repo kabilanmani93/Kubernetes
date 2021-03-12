@@ -20,7 +20,7 @@ spec:
     spec:
       affinity:
         nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
+          requiredDuringSchedulingIgnoredDuringExecution: # Hard affinity
             nodeSelectorTerms:
               - matchExpressions:
                   - key: Disktype

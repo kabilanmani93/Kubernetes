@@ -42,3 +42,8 @@ spec:
             successThreshold: 1
             failureThreshold: 3
             timeoutSeconds: 1
+      tolerations:
+        - key: "dedicated"
+          operator: "Equal"
+          value: "devs"
+          effect: "NoSchedule"
