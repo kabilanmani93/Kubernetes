@@ -11,11 +11,11 @@ spec:
       image: kodekloud/examplevotingapp_vote:v1
       ports:
         - containerPort: 80
-      readinessProbe:
+      livenessProbe:
         httpGet:
           path: /
-          port: 30004
-        initialDelaySeconds: 60
+          port: 80
+        initialDelaySeconds: 10
         periodSeconds: 5
         successThreshold: 1
         failureThreshold: 3

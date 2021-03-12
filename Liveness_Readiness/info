@@ -10,3 +10,6 @@ Liveness probe fails.
 Kubernetes restarts the failed container*.
 Readiness probe succeeds.
 Kubernetes starts routing traffic to the pod again.
+
+
+https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-setting-up-health-checks-with-readiness-and-liveness-probes
