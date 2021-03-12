@@ -30,7 +30,7 @@ spec:
                   - key: Memory
                     operator: Gt
                     values:
-                      - 10
+                      - "10"
           preferredDuringSchedulingIgnoredDuringExecution:
             - weight: 1
               preference:
