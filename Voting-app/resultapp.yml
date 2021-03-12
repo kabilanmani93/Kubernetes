@@ -20,14 +20,14 @@ spec:
                 operator: In
                 values:
                   - ssd
-        preferredDuringSchedulingIgnoredDuringExecution:  #soft affinity The “soft” rule says that among the nodes that meet “hard” criteria
-          - weight: 1
-            preference:
-              matchExpressions:
-                - key: Cpu_Type
-                  operator: In
-                  values:
-                    - High
+      preferredDuringSchedulingIgnoredDuringExecution:  #soft affinity The “soft” rule says that among the nodes that meet “hard” criteria
+        - weight: 1
+          preference:
+            matchExpressions:
+              - key: Cpu_Type
+                operator: In
+                values:
+                  - High
   containers:
     - name: result-app
       image: kodekloud/examplevotingapp_result:v1
