@@ -19,7 +19,7 @@ spec:
         app: demo-voting-app
     spec:
       affinity:
-        nodeAntiAffinity:
+        nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: votingapp-deployment
+  labels:
+    app: votingapp
+    tier: frontent
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      name: voting-app-pod
+      app: demo-voting-app
+  template:
+    metadata:
+      name: voting-app-pod
+      labels:
+        name: voting-app-pod
+        app: demo-voting-app
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: name
+                  operator: In
+                  values:
+                    - result-app-pod
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+        - name: voting-app
+          image: kodekloud/examplevotingapp_vote:v1
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: http://localhost
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+            timeoutSeconds: 1
