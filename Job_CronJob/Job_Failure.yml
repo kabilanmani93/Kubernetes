@@ -1,0 +1,18 @@
+#kubectl get pod -l=job-name=job3 -w
+#kubectl get job/job3 -o yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job3
+spec:
+  backoffLimit: 2
+  template:
+    spec:
+      containers:
+        - name: job
+          image: busybox
+          args:
+            - /bin/sh
+            - -c
+            - date; echo sleeping....; sleep 5s; exit 1;
+      restartPolicy: OnFailure
