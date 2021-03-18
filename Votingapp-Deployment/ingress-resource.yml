@@ -9,8 +9,8 @@ spec:
           - path: /*
             backend:
               serviceName: result-service
-              servicePort: 8080
+              servicePort: 80
           - path: /v2/*
             backend:
               serviceName: voting-service
-              servicePort: 8080
+              servicePort: 80
