@@ -7,12 +7,10 @@ spec:
       http:
         paths:
           - path: /vote
-            pathType: Prefix
             backend:
               serviceName: result-service
               servicePort: 8080
           - path: /result
-            pathType: Prefix
             backend:
               serviceName: voting-service
               servicePort: 8080
