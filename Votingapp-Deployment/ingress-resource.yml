@@ -4,16 +4,16 @@ metadata:
   name: votingapp-ingress
 spec:
   rules:
-      http:
-        paths:
-          - path: /vote
-            backend:
-              serviceName: result-service
-              servicePort: 8080
-          - path: /result
-            backend:
-              serviceName: voting-service
-              servicePort: 8080
+   - http:
+      paths:
+        - path: /vote
+          backend:
+            serviceName: result-service
+            servicePort: 8080
+        - path: /result
+          backend:
+            serviceName: voting-service
+            servicePort: 8080
 
 
 #
