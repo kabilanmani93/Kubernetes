@@ -6,14 +6,14 @@ spec:
   rules:
    - http:
       paths:
-        - path: /vote
-          backend:
-            serviceName: result-service
-            servicePort: 8080
         - path: /result
           backend:
+            serviceName: result-service
+            servicePort: 80
+        - path: /vote
+          backend:
             serviceName: voting-service
-            servicePort: 8080
+            servicePort: 80
 
 
 #
