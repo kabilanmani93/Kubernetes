@@ -8,11 +8,11 @@ spec:
   rules:
     - http:
         paths:
-          - path: /*
+          - path: /result
             backend:
               serviceName: result-service
               servicePort: 80
-          - path: /v2/*
+          - path: /vote
             backend:
               serviceName: voting-service
               servicePort: 80
