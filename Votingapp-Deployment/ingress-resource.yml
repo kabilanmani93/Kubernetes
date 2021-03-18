@@ -1,9 +1,7 @@
-apiVersion: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: example-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+  name: votingapp-ingress
 spec:
   rules:
       http:
@@ -11,16 +9,13 @@ spec:
           - path: /vote
             pathType: Prefix
             backend:
-              service:
-                name: result-service
-                port:
-                  number: 8080
+              serviceName: result-service
+              servicePort: 8080
           - path: /result
             pathType: Prefix
             backend:
-              service:
-                name: voting-service
-                port:
-                  number: 8080
+              serviceName: voting-service
+              servicePort: 8080
+
 
 #
