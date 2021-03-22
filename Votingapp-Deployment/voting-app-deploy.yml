@@ -20,7 +20,7 @@ spec:
             - containerPort: 80
           readinessProbe:
             httpGet:
-              path: /vote
+              path: localhost/vote
               port: 80
             initialDelaySeconds: 20
             periodSeconds: 5
