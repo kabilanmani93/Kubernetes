@@ -50,7 +50,7 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       containers:
         - name: voting-app
-          image: kodekloud/examplevotingapp_vote:v1
+          image: kabilanmani/votecode:1
           ports:
             - containerPort: 80
           livenessProbe:
