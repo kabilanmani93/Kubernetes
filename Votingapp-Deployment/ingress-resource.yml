@@ -9,7 +9,7 @@ spec:
   rules:
     - http:
         paths:
-          - path: /result
+          - path: /
             backend:
               serviceName: result-service
               servicePort: 80
