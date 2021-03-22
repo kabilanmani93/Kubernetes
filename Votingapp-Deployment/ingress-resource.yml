@@ -1,8 +1,11 @@
 #https://github.com/kubernetes/ingress-nginx/blob/faf80ad89a1e49113cc9791f0137e2f5a542487a/controllers/nginx/configuration.md#rewrite
+#https://stackoverflow.com/questions/61541812/ingress-nginx-how-to-serve-assets-to-application
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: fanout-ingress
+  annotation:
+     ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
     - http:
@@ -11,7 +14,7 @@ spec:
             backend:
               serviceName: result-service
               servicePort: 80
-          - path: /vote
+          - path: /vote(/|$)(.*)
             backend:
               serviceName: voting-service
               servicePort: 80
