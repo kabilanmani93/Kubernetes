@@ -18,6 +18,15 @@ spec:
           image: kabilanmani/votecode:2
           ports:
             - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: https://localhost/vote
+              port: 80
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+            timeoutSeconds: 1  
   selector:
     matchLabels:
       name: voting-app-pod
