@@ -4,7 +4,7 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: fanout-ingress
-  annotation:
+  annotations:
      ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
