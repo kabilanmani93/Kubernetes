@@ -27,3 +27,17 @@ spec:
     protocol: TCP
   selector:
     app: bollywood
+    
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bollywood-svc-node
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 10010
+    protocol: TCP
+  selector:
+    app: bollywood    
