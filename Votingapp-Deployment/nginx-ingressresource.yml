@@ -7,6 +7,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - host: 35.222.22.152.xip.io
@@ -21,3 +22,23 @@ spec:
             serviceName: voting-service
             servicePort: 80
     
+    
+ #https://cloud.google.com/community/tutorials/nginx-ingress-gke 
+#kubectl create deployment hello-app --image=gcr.io/google-samples/hello-app:1.0
+#kubectl expose deployment hello-app --port=8080 --target-port=8080
+#helm repo add nginx-stable https://helm.nginx.com/stable
+#helm repo update  
+#helm install nginx-ingress nginx-stable/nginx-ingress
+#kubectl get deployment nginx-ingress-nginx-ingress
+#kubectl get service nginx-ingress-nginx-ingress
+#kubectl get service nginx-ingress-nginx-ingress
+#export NGINX_INGRESS_IP=$(kubectl get service nginx-ingress-nginx-ingress -ojson | jq -r '.status.loadBalancer.ingress[].ip')
+#echo $NGINX_INGRESS_IP
+
+#kubectl delete -f ingress-resource.yaml
+#helm del nginx-ingress
+#kubectl delete service hello-app
+#kubectl delete deployment hello-app
+
+
+#https://katharharshal1.medium.com/setup-nginx-ingress-controller-on-kubernetes-cluster-dd48b2b1ab61
