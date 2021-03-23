@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: movies
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: newmovies.com
+    http:
+      paths:
+      - path: /bollywood
+        backend:
+          serviceName: bollywood-svc
+          servicePort: 80
+      - path: /hollywood
+        backend:
+          serviceName: hollywood-svc
+          servicePort: 80
+      - path: /tollywood
+        backend:
+          serviceName: tollywood-svc
+          servicePort: 80
