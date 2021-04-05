@@ -67,9 +67,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.postgressapplicationname" .}}-service
+  name: {{ .Values.applications.postgressapp.service.name }}
   labels:    
-    name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.postgressapplicationname" .}}-service
+    name: {{ .Values.applications.postgressapp.service.name }}
     app: {{ .Values.applicationName }}
     {{- include "VotingCharts.selectorLabels" . | nindent 4 }}
 spec:

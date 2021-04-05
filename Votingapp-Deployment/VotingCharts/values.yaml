@@ -58,6 +58,7 @@ applications:
       tag: latest
       pullPolicy: IfNotPresent         
     service:
+      name: redis
       Type: ClusterIP
       containerPort: 6379
       targetPort: 6379
@@ -72,6 +73,7 @@ applications:
       tag: latest
       pullPolicy: IfNotPresent       
     service:
+      name: db
       Type: ClusterIP
       containerPort: 5432
       targetPort: 5432
