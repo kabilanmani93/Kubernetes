@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.voteapplicationname" .}}-deploy
+  labels:
+    {{- include "VotingCharts.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.applications.voteapp.replicationcount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "VotingCharts.selectorLabels" . | nindent 6 }}
+      name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.voteapplicationname" .}}-pod
+      app: {{ .Values.applicationName }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "VotingCharts.selectorLabels" . | nindent 8 }}
+        name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.voteapplicationname" .}}-pod
+        app: {{ .Values.applicationName }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      #serviceAccountName: {{ include "VotingCharts.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.voteapplicationname" .}}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- $chartappversion := .Chart.AppVersion}}
+          {{- with .Values.applications.voteapp }}
+          image: {{ .image.repository }}/{{.image.imagename}}:{{.image.tag| default $chartappversion }}
+          imagePullPolicy: {{.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{.service.containerPort}}
+          readinessProbe:
+            httpGet:
+              path: {{.probes.path}}
+              port: {{.probes.port}}
+          {{- end }}    
+            initialDelaySeconds: {{.Values.initialDelaySeconds}}
+            periodSeconds: {{.Values.periodSeconds}}
+            successThreshold: {{.Values.successThreshold}}
+            failureThreshold: {{.Values.failureThreshold}}
+            timeoutSeconds: {{.Values.timeoutSeconds}}              
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}          
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.voteapplicationname" .}}-service
+  labels:    
+    name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.voteapplicationname" .}}-service
+    app: {{ .Values.applicationName }}
+    {{- include "VotingCharts.selectorLabels" . | nindent 4 }}
+spec:
+  {{- with .Values.applications.voteapp.service }}
+  type: {{ .Type }}
+  ports:
+    - port: {{ .containerPort }}
+      targetPort: {{.targetPort}}
+      nodePort: {{ .NodePort }}
+      name: http
+  {{- end}}    
+  selector:
+    name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.voteapplicationname" .}}-pod
+    app: {{ .Values.applicationName }}
+    {{- include "VotingCharts.selectorLabels" . | nindent 4 }}
+

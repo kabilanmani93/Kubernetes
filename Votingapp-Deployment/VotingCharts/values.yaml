@@ -1,6 +1,83 @@
-# Default values for resultappchart.
+# Default values for VotingCharts.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
+
+applicationName: VotingApp
+
+applications:
+  voteapp: 
+    name: voteui
+    image:
+      repository: kabilanmani
+      imagename: votecode
+      tag: 5
+      pullPolicy: IfNotPresent      
+    imageName: kabilanmani/votecode:5    
+    service:
+      Type: NodePort
+      containerPort: 80
+      targetPort: 80
+      NodePort: 30004
+    probes:
+      path: /vote/
+      port: 80 
+    replicationcount: 1
+  resultapp: 
+    name: resultui
+    imageName: kodekloud/examplevotingapp_result:v1
+    image:
+      repository: kodekloud
+      imagename: examplevotingapp_result
+      tag: v1
+      pullPolicy: IfNotPresent         
+    service:
+      Type: NodePort
+      containerPort: 80
+      targetPort: 80
+      NodePort: 30005
+    probes:
+      path: /
+      port: 80 
+    replicationcount: 1
+  workerapp: 
+    name: worker
+    image:
+      repository: kodekloud
+      imagename: examplevotingapp_worker
+      tag: v1
+      pullPolicy: IfNotPresent      
+    imageName: kodekloud/examplevotingapp_worker:v1    
+    service:
+    probes:
+    replicationcount: 1
+  redisapp: 
+    name: redis
+    imageName: redis       
+    service:
+      Type: ClusterIP
+      containerPort: 6379
+      targetPort: 6379
+      NodePort: 30006
+    probes:
+    replicationcount: 1  
+  postgressapp: 
+    name: postgress
+    imageName: postgres       
+    service:
+      Type: ClusterIP
+      containerPort: 5432
+      targetPort: 5432
+      NodePort: 30007
+    probes:
+    replicationcount: 1    
+
+initialDelaySeconds: 5
+periodSeconds: 5
+successThreshold: 1
+failureThreshold: 3
+timeoutSeconds: 1 
+
+
 
 replicaCount: 1
 
@@ -47,7 +124,11 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: chart-example.local
-      paths: []
+      paths:
+      - path: /
+        backend:
+          serviceName: chart-example.local
+          servicePort: 80
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:

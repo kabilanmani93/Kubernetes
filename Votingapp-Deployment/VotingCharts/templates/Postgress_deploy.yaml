@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.postgressapplicationname" .}}-deploy
+  labels:
+    {{- include "VotingCharts.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.applications.voteapp.replicationcount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "VotingCharts.selectorLabels" . | nindent 6 }}
+      name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.postgressapplicationname" .}}-pod
+      app: {{ .Values.applicationName }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "VotingCharts.selectorLabels" . | nindent 8 }}
+        name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.postgressapplicationname" .}}-pod
+        app: {{ .Values.applicationName }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      #serviceAccountName: {{ include "VotingCharts.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.postgressapplicationname" .}}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- $chartappversion := .Chart.AppVersion}}
+          {{- with .Values.applications.postgressapp }}
+          image: {{ .imageName}}
+          imagePullPolicy: {{.image.pullPolicy }}
+          ports:
+            - containerPort: {{.service.containerPort}}
+          env:
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "postgres"  
+          {{- end }}              
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}          
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.postgressapplicationname" .}}-service
+  labels:    
+    name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.postgressapplicationname" .}}-service
+    app: {{ .Values.applicationName }}
+    {{- include "VotingCharts.selectorLabels" . | nindent 4 }}
+spec:
+  {{- with .Values.applications.postgressapp.service }}
+  ports:
+    - port: {{ .containerPort }}
+      targetPort: {{.targetPort}}
+  {{- end}}    
+  selector:
+    name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.postgressapplicationname" .}}-pod
+    app: {{ .Values.applicationName }}
+    {{- include "VotingCharts.selectorLabels" . | nindent 4 }}
+
