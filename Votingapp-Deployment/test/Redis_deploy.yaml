@@ -37,16 +37,11 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           {{- $chartappversion := .Chart.AppVersion}}
           {{- with .Values.applications.redisapp }}
-          image: {{ .imageName}}
+          image: {{ .imageName }}
           imagePullPolicy: {{.image.pullPolicy }}
           ports:
-            - containerPort: {{.service.containerPort}}
-          env:
-            - name: POSTGRES_USER
-              value: "postgres"
-            - name: POSTGRES_PASSWORD
-              value: "postgres"  
-          {{- end }}              
+            - containerPort: {{.service.containerPort}}}
+          {{- end }}             
           resources:
             {{- toYaml .Values.resources | nindent 12 }}          
       {{- with .Values.nodeSelector }}

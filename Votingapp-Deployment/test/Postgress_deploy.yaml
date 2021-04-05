@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.redisapplicationname" .}}-deploy
+  name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.postgressapplicationname" .}}-deploy
   labels:
     {{- include "VotingCharts.labels" . | nindent 4 }}
 spec:
@@ -11,7 +11,7 @@ spec:
   selector:
     matchLabels:
       {{- include "VotingCharts.selectorLabels" . | nindent 6 }}
-      name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.redisapplicationname" .}}-pod
+      name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.postgressapplicationname" .}}-pod
       app: {{ .Values.applicationName }}
   template:
     metadata:
@@ -21,7 +21,7 @@ spec:
       {{- end }}
       labels:
         {{- include "VotingCharts.selectorLabels" . | nindent 8 }}
-        name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.redisapplicationname" .}}-pod
+        name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.postgressapplicationname" .}}-pod
         app: {{ .Values.applicationName }}
     spec:
       {{- with .Values.imagePullSecrets }}
@@ -32,11 +32,11 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.redisapplicationname" .}}
+        - name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.postgressapplicationname" .}}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           {{- $chartappversion := .Chart.AppVersion}}
-          {{- with .Values.applications.redisapp }}
+          {{- with .Values.applications.postgressapp }}
           image: {{ .imageName}}
           imagePullPolicy: {{.image.pullPolicy }}
           ports:
@@ -67,19 +67,19 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.redisapplicationname" .}}-service
+  name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.postgressapplicationname" .}}-service
   labels:    
-    name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.redisapplicationname" .}}-service
+    name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.postgressapplicationname" .}}-service
     app: {{ .Values.applicationName }}
     {{- include "VotingCharts.selectorLabels" . | nindent 4 }}
 spec:
-  {{- with .Values.applications.redisapp.service }}
+  {{- with .Values.applications.postgressapp.service }}
   ports:
     - port: {{ .containerPort }}
       targetPort: {{.targetPort}}
   {{- end}}    
   selector:
-    name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.redisapplicationname" .}}-pod
+    name: {{ include "VotingCharts.fullname" . }}-{{ include "VotingCharts.postgressapplicationname" .}}-pod
     app: {{ .Values.applicationName }}
     {{- include "VotingCharts.selectorLabels" . | nindent 4 }}
 
