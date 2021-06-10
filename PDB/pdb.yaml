@@ -1,10 +1,10 @@
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
-  name: retail-vrp-rbg-ch-nfr-pdb
-  namespace: retail-vrp-rbg
+  name: httpd-pdb
+  namespace: default
 spec:
   minAvailable: "90%"  
   selector:
     matchLabels:
-      app: retail-vrp-rbg-ch-nfr-playground
+      app: myapp-httpd
