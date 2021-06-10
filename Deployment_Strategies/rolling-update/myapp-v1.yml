@@ -2,12 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: myapp-deploy
+  namespace: retail-vrp-inventory-allocator
   labels:
     name: myapp-deploy
     app: myapp
     version: v1.0.0
 spec:
-  replicas: 3
+  replicas: 8
   selector:
     matchLabels:
       name: myapp-pod
@@ -31,4 +32,11 @@ spec:
           env:
             - name: VERSION
               value: v1.0.0
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 3302.7Mi
+            requests:
+              cpu: 1500m
+              memory: 3302.7Mi         
 

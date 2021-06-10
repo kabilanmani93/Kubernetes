@@ -3,3 +3,33 @@ https://learnk8s.io/kubernetes-rollbacks
 https://medium.com/stakater/k8s-deployments-vs-statefulsets-vs-daemonsets-60582f0c62d4#:~:text=You%20will%20have%20to%20specify%20the%20tolerations%20for%20it%20on%20the%20pod.&text=which%20means%20that%20it%20should%20tolerate%20all%20nodes.&text=When%20you%20deploy%20the%20daemonset,share%20the%20same%20Persistent%20Volume.
 
 https://github.com/kahootali/counter-app/tree/master/kubernetes
+
+kubectl rollout history deployment busybox
+kubectl rollout status deployment busybox
+
+
+ kubectl create -f demo-deployment-v1.yml --record
+
+ # Scale a deployment “test” to 3 replicas:
+kubectl scale deploy/test --replicas=3
+
+# Watch update status for deployment “test”:
+kubectl rollout status deploy/test
+
+# Pause deployment on “test”:
+kubectl rollout pause deploy/test
+
+# Resume deployment on “test”:
+kubectl rollout resume deploy/test
+
+# View rollout history on “test”:
+kubectl rollout history deploy/test
+
+# Undo most recent update on “test”:
+kubectl rollout undo deploy/test
+
+# Rollback to specific revision on “test”:
+kubectl rollout undo deploy/test --to-revision=1
+
+
+https://www.bluematador.com/blog/kubernetes-deployments-rolling-update-configuration

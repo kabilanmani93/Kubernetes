@@ -1,0 +1,45 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: <deploymentName>-scaledobject ## MANDATORY PARAMETER
+  namespace: default ## MANDATORY PARAMETER
+spec:
+  scaleTargetRef:
+    deploymentName: nginx-deployment-basic ## MANDATORY PARAMETER
+  pollingInterval: 30 ## OPTIONAL PARAMETER: Default value is 30 seconds.
+  minReplicaCount: 3 ## MANDATORY PARAMETER
+  maxReplicaCount: 100 ## OPTIONAL PARAMETER. If set, the value cannot go beyond the namespace quota.
+  triggers:
+  - type: cpu
+    metadata:
+        # Required
+      type: Value/ Utilization/ AverageValue
+      value: "60"
+
+apiVersion: keda.k8s.io/v1alpha1
+kind: ScaledObject
+metadata:
+  name: retail-vrp-fulfilment-svc-hpa
+  namespace: retail-vrp-fulfilment-service
+spec:
+  scaleTargetRef:
+    deploymentName: retail-vrp-fulfilment-svc-deployment
+  pollingInterval: 10
+  minReplicaCount: 1
+  maxReplicaCount: 3  
+  triggers:
+  - type: cpu
+    metadata:
+      type: Utilization
+      value: 70
+
+
+       resourceMetrics:
+        - name: cpu
+          target:
+            type: Utilization
+            averageUtilization: 70
+        - name: mem
+          target:
+            type: Utilization
+            averageUtilization: 80     

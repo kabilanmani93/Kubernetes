@@ -8,9 +8,9 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - targetPort: 80
-      port: 80
-      nodePort: 30008
+    - port: 10010
+      targetPort: 3000
+      nodePort: 37001
   selector:
     app: myapp-httpd
 
